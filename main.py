@@ -2,6 +2,9 @@ from product_input_interface.input_interface import InputInterface
 
 
 class Main:
+    def __init__(self):
+        self.interface = InputInterface()
+
     @staticmethod
     def __print_choices():
         print(
@@ -15,7 +18,7 @@ class Main:
             self.__print_choices()
             choice = input("Enter choice: ")
             if choice == "1":
-                InputInterface().warehouse_interface()
+                self.interface.warehouse_interface()
             elif choice == "0":
                 break
             else:

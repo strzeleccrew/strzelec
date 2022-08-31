@@ -1,30 +1,28 @@
 class WarehouseProducts:
-    __allowed_products_type = ["helmet", "rifle", "medkit"]
-    __max_product_name_length = 60
-    __min_product_name_length = 1
+    __ALLOWED_PRODUCTS_TYPE = ["helmet", "rifle", "medkit"]
+    __MAX_PRODUCT_NAME_LENGTH = 60
+    __MIN_PRODUCT_NAME_LENGTH = 1
 
     def print_allowed_product_types(self):
         print("Allowed product types:")
-        for item in self.__allowed_products_type:
+        for item in self.__ALLOWED_PRODUCTS_TYPE:
             print(f"- {item}")
 
     def check_product_type(self, product_type: str):
-        allowed_products = self.__allowed_products_type
-        if product_type in allowed_products:
+        if product_type in self.__ALLOWED_PRODUCTS_TYPE:
             return True
         else:
             print("Product type was not valid.")
             return False
 
     def check_product_name_length(self, product_name: str):
-        allowed_length = self.__max_product_name_length
-        if 1 <= len(product_name) <= allowed_length:
+        if self.__MIN_PRODUCT_NAME_LENGTH <= len(product_name) <= self.__MAX_PRODUCT_NAME_LENGTH:
             return True
 
         elif len(product_name) > 60:
-            print(f"Product name is too long (max {self.__max_product_name_length.__str__()} characters)")
+            print(f"Product name is too long (max {self.__MAX_PRODUCT_NAME_LENGTH.__str__()} characters)")
 
         elif len(product_name) == 0:
-            print(f"Product name is too short (min {self.__min_product_name_length.__str__()} characters)")
+            print(f"Product name is too short (min {self.__MIN_PRODUCT_NAME_LENGTH.__str__()} characters)")
 
         return False
