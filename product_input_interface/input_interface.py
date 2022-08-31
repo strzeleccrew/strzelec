@@ -41,14 +41,18 @@ class InputInterface:
                 return product_name
 
     def __get_product_quantity(self):
-        quantity = self.__user_quantity_of_product()
-        if quantity == self.QUIT_LOOP:
-            return self.QUIT_LOOP
+        while True:
+            quantity = self.__user_quantity_of_product()
+            if quantity == self.QUIT_LOOP:
+                return self.QUIT_LOOP
 
-        if int(quantity) == 0:
-            print("You cant add 0 quantity")
-        else:
-            return int(quantity)
+            try:
+                if int(quantity) == 0:
+                    print("You cant add 0 quantity")
+                else:
+                    return int(quantity)
+            except ValueError as e:
+                print(f"You need to input natural number. {e}")
 
     def __get_product_dict(self):
         product_type = self.__get_product_type()

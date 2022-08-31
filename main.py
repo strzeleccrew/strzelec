@@ -22,7 +22,5 @@ class Main:
                 print("There is no such choice. Please enter valid choice")
 
 
-# Main().main()
-
 if __name__ == '__main__':
     Main().main()
