@@ -24,7 +24,7 @@ while True:
             if word in word_list:
                 return word
             else:
-                print("'%s' is not in the list of words. Please choose from the following:\n%s" % (word, w_string[:-1]))
+                print(f"'{word}' is not in the list of words. Please choose from the following:\n{w_string}")
     word = get_word()
     print(word)
     #Wprowadzenie danych -ilość
