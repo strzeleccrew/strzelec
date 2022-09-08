@@ -13,10 +13,8 @@ while True:
 
     def get_word():
         print("Please choose the type from the following:")
-        w_string = ""
-        for w in word_list:
-            w_string += w + ', '
-        print(w_string[:-1])
+        w_string = ",".join(word_list)
+        print(w_string)
 
         while True:
             word = input("\n> ")
