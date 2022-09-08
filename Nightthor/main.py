@@ -31,17 +31,21 @@ while True:
     #podsumowanie
     print("Entered data")
     print("Product", s, "type", word, "amount", i )
-    def question():
         ans = 0
+        askUserForNewItem = False
         while ans < 2:
             answer = input("Do You want add anything else? (yes or no)")
             if any(answer.lower() == f for f in ["yes", 'y', '1', 'ye']):
                 print("OK")
+                askUserForNewItem = True
             elif any(answer.lower() == f for f in ['no', 'n', '0']):
                 print("Thank You. See You next time")
+                askUserForNewItem = False
             else:
                 ans += 1
                 if ans < 2:
                     print('Please enter yes or no')
                 else:
-                    print("Nothing done")
+                    askUserForNewItem = False
+        if not askUserForNewItem:
+          break # that should end top-level `while True` loop
