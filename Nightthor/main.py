@@ -17,8 +17,7 @@ while True:
         print(w_string)
 
         while True:
-            word = input("\n> ")
-            word = word.lower().strip()
+            word = input("\n> ").lower().strip()
             if word in word_list:
                 return word
             else:
