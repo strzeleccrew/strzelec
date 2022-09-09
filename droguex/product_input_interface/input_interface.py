@@ -1,4 +1,4 @@
-from product_input_interface.allowed_products import WarehouseProducts
+from droguex.product_input_interface.allowed_products import WarehouseProducts
 
 
 class InputInterface:

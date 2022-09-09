@@ -1,4 +1,4 @@
-from product_input_interface.product_types import ProductType
+from droguex.product_input_interface.product_types import ProductType
 
 
 class WarehouseProducts:

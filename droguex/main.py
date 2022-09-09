@@ -1,4 +1,4 @@
-from product_input_interface.input_interface import InputInterface
+from droguex.product_input_interface.input_interface import InputInterface
 
 
 class Main:
