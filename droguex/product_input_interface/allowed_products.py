@@ -1,10 +1,11 @@
-from droguex.product_input_interface.product_types import ProductType
+from droguex.product_data.allowed_data import AllowedData
+from droguex.product_data.product_data import ProductData
 
 
-class WarehouseProducts:
-    __ALLOWED_PRODUCTS_TYPE = [product_type.value for product_type in ProductType]
-    __MAX_PRODUCT_NAME_LENGTH = 60
-    __MIN_PRODUCT_NAME_LENGTH = 1
+class AllowedProducts:
+    __ALLOWED_PRODUCTS_TYPE = ProductData.product_types
+    __MAX_PRODUCT_NAME_LENGTH = AllowedData.MAX_CHAR_FOR_PRODUCT_NAME
+    __MIN_PRODUCT_NAME_LENGTH = AllowedData.MIN_CHAR_FOR_PRODUCT_NAME
 
     def __get_allowed_product_types_formated(self) -> str:
         allowed_types_formated = ""
