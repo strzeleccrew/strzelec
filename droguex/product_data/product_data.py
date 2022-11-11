@@ -24,5 +24,5 @@ class ProductData:
 
         print("-" * 30)
 
-    def add_new_product_to_memory(self, product_temp):
+    def add_new_product_to_memory(self, product_temp: tuple):
         ProductData.product_objects.append(Product(self.__get_id_for_new_product(), *product_temp))

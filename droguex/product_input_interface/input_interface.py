@@ -10,6 +10,7 @@ class InputInterface:
 
     def __init__(self):
         self.__WAREHOUSE_ALLOWED_PRODUCTS = AllowedProducts()
+        self.__PRODUCT_DATA = ProductData()
 
     @staticmethod
     def __user_input_product_name() -> str:
@@ -142,7 +143,7 @@ class InputInterface:
 
         match save_choice:
             case 'y':
-                ProductData.add_new_product_to_memory(*product_temp)
+                self.__PRODUCT_DATA.add_new_product_to_memory(product_temp)
             case 'n':
                 print("Product will not be saved")
             case self.__QUIT:
