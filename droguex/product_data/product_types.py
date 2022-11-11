@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ProductType(Enum):
+class ProductTypes(Enum):
     HELMET = "helmet"
     MEDKIT = "medkit"
     RIFLE = "rifle"

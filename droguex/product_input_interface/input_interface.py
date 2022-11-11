@@ -1,58 +1,56 @@
+from droguex.product_data.allowed_data_settings import AllowedDataSettings
 from droguex.product_data.product import Product
 from droguex.product_data.product_data import ProductData
 from droguex.product_input_interface.allowed_products import AllowedProducts
 from droguex.utils.console_cleaner import console_clean
-from droguex.product_data.product_purpose import ProductPurpose
 
 
 class InputInterface:
-    QUIT_LOOP = "quit"
+    __QUIT = AllowedDataSettings.QUIT_COMMAND
 
     def __init__(self):
-        self.__WAREHOUSE_PRODUCTS = AllowedProducts()
-        self.__PURPOSE = [i.value for i in ProductPurpose]
+        self.__WAREHOUSE_ALLOWED_PRODUCTS = AllowedProducts()
 
     @staticmethod
-    def __user_input_product_name():
+    def __user_input_product_name() -> str:
         return input("Please enter product name: ")
 
     @staticmethod
-    def __user_quantity_of_product():
+    def __user_quantity_of_product() -> str:
         return input("Please enter quantity: ")
 
     @staticmethod
-    def __user_input_product_type():
+    def __user_input_product_type() -> str:
         return input("Please enter product type: ")
 
-    def __user_input_product_description(self):
+    @staticmethod
+    def __user_input_product_description() -> str:
         return input("Please enter description for the product: ")
 
-    def __user_input_product_purpose(self):
+    @staticmethod
+    def __user_input_product_purpose() -> str:
         return input("Please enter purpose for the product: ")
 
-    def __is_product_purpose_valid(self, product_purpose):
-        return True if product_purpose in self.__PURPOSE else False
-
-    def __get_product_purpose(self):
-        print(f"Allowed purpose:")
-        for i in self.__PURPOSE:
-            print(f"- {i}")
-
-        purpose = self.__user_input_product_purpose()
-        if purpose == self.QUIT_LOOP:
-            return None
-
-        if self.__is_product_purpose_valid(purpose):
-            return purpose
-
-    def __get_product_type(self):
+    def __get_product_purpose(self) -> str:
         while True:
-            self.__WAREHOUSE_PRODUCTS.print_allowed_product_types()
-            product_type = self.__user_input_product_type()
-            if product_type.lower() == self.QUIT_LOOP:
-                return self.QUIT_LOOP
+            self.__WAREHOUSE_ALLOWED_PRODUCTS.print_allowed_product_purpose()
+            purpose = self.__user_input_product_purpose()
+            if purpose.lower() == self.__QUIT:
+                return self.__QUIT
 
-            product_type_is_valid = self.__WAREHOUSE_PRODUCTS.is_product_type_allowed(product_type.lower())
+            if self.__WAREHOUSE_ALLOWED_PRODUCTS.is_product_purpose_valid(purpose):
+                return purpose
+            else:
+                print("Product purpose was not valid. Please enter valid purpose\n")
+
+    def __get_product_type(self) -> str:
+        while True:
+            self.__WAREHOUSE_ALLOWED_PRODUCTS.print_allowed_product_types()
+            product_type = self.__user_input_product_type()
+            if product_type.lower() == self.__QUIT:
+                return self.__QUIT
+
+            product_type_is_valid = self.__WAREHOUSE_ALLOWED_PRODUCTS.is_product_type_allowed(product_type)
             if product_type_is_valid:
                 return product_type
             else:
@@ -61,10 +59,10 @@ class InputInterface:
     def __get_product_name(self):
         while True:
             product_name = self.__user_input_product_name()
-            if product_name.lower() == self.QUIT_LOOP:
-                return self.QUIT_LOOP
+            if product_name.lower() == self.__QUIT:
+                return self.__QUIT
 
-            product_name_is_valid = self.__WAREHOUSE_PRODUCTS.check_product_name_length(product_name)
+            product_name_is_valid = self.__WAREHOUSE_ALLOWED_PRODUCTS.is_product_name_length_valid(product_name)
             if product_name_is_valid:
                 return product_name
 
@@ -72,8 +70,11 @@ class InputInterface:
         ERROR_MESSAGE = "You need to input natural number greater than 0."
         while True:
             quantity = self.__user_quantity_of_product()
-            if quantity == self.QUIT_LOOP:
-                return self.QUIT_LOOP
+            try:
+                if quantity.lower() == self.__QUIT:
+                    return self.__QUIT
+            except ValueError:
+                pass
 
             try:
                 if int(quantity) == 0 \
@@ -86,88 +87,65 @@ class InputInterface:
             except ValueError as e:
                 print(f"{ERROR_MESSAGE} {e}")
 
-    def __get_id_for_product(self):
-        ProductData.id += 1
-        return ProductData.id
-
-    def __get_product_info(self):
+    def __get_product_info(self) -> None | tuple[str, str, str, str, str | int]:
         product_type = self.__get_product_type()
-
-        def quit_loop():
-            return None, None, None, None, None
-
-        if product_type == self.QUIT_LOOP:
-            return quit_loop()
+        if product_type == self.__QUIT:
+            return None
 
         product_name = self.__get_product_name()
-        if product_name == self.QUIT_LOOP:
-            return quit_loop()
+        if product_name == self.__QUIT:
+            return None
 
         product_quantity = self.__get_product_quantity()
-        if product_quantity == self.QUIT_LOOP:
-            return quit_loop()
+        if product_quantity == self.__QUIT:
+            return None
 
-        product_decription = self.__user_input_product_description()
-        if product_decription == self.QUIT_LOOP:
-            return quit_loop()
+        product_description = self.__user_input_product_description()
+        if product_description == self.__QUIT:
+            return None
 
         product_purpose = self.__get_product_purpose()
-        if product_purpose == self.QUIT_LOOP:
-            return quit_loop()
+        if product_purpose == self.__QUIT:
+            return None
 
-        return product_type, \
-               product_name, \
-               product_quantity, \
-               product_decription, \
-               self.__get_id_for_product(), \
-               product_purpose
+        return product_name, product_description, product_type, product_purpose, product_quantity
 
     @console_clean
-    def __show_summary(self, product_type,
+    def __show_summary(self,
                        product_name,
-                       product_quantity,
                        product_description,
-                       product_id,
-                       product_purpose):
+                       product_type,
+                       product_purpose,
+                       product_quantity):
         print("\n"
               "Summary: \n"
-              f"Product type: {product_type}\n"
               f"Product name: {product_name}\n"
-              f"Product quantity: {product_quantity.__str__()}\n"
               f"Product description: {product_description.__str__()}\n"
-              f"Product id: {product_id.__str__()}\n"
+              f"Product type: {product_type}\n"
               f"Product purpose: {product_purpose.__str__()}\n"
+              f"Product quantity: {product_quantity.__str__()}\n"
               )
 
     @console_clean
     def warehouse_interface(self):
-        print(f'You can quit by typing "{self.QUIT_LOOP}"\n')
-        product_type, \
-        product_name, \
-        product_quantity, \
-        product_decription, \
-        product_id, \
-        product_purpose = self.__get_product_info()
-
-        if not product_type:
+        print(f'You can quit by typing "{self.__QUIT}"\n')
+        product_temp = self.__get_product_info()
+        if not product_temp:
             return None
-        self.__show_summary(product_type,
-                            product_name,
-                            product_quantity,
-                            product_decription,
-                            product_id,
-                            product_purpose)
 
-        save_choice = input("Do you want to save this product? y/n ")
+        self.__show_summary(*product_temp)
+
+        save_choice = input("Do you want to save this product? y/n ").lower()
         if save_choice != 'y' and save_choice != 'n':
-            while True:
-                save_choice = input("There is no such option, please enter 'y' or 'n' ")
+            while save_choice == 'y' or save_choice == 'n' or save_choice != self.__QUIT:
+                save_choice = input("There is no such option, please enter 'y' or 'n' ").lower()
 
         match save_choice:
             case 'y':
-                ProductData.product_objects.append(
-                    Product(product_name, product_purpose, product_type, product_decription, product_id))
+                ProductData.add_new_product_to_memory(*product_temp)
             case 'n':
+                print("Product will not be saved")
+            case self.__QUIT:
                 print("Product will not be saved")
             case _:
                 print("Something went wrong!")

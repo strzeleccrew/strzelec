@@ -1,30 +1,25 @@
-from droguex.product_data.allowed_data import AllowedData
+from droguex.product_data.allowed_data_settings import AllowedDataSettings
 from droguex.product_data.product_data import ProductData
+from droguex.product_data.product_purposes import ProductPurposes
 
 
 class AllowedProducts:
     __ALLOWED_PRODUCTS_TYPE = ProductData.product_types
-    __MAX_PRODUCT_NAME_LENGTH = AllowedData.MAX_CHAR_FOR_PRODUCT_NAME
-    __MIN_PRODUCT_NAME_LENGTH = AllowedData.MIN_CHAR_FOR_PRODUCT_NAME
+    __MAX_PRODUCT_NAME_LENGTH = AllowedDataSettings.MAX_CHAR_FOR_PRODUCT_NAME
+    __MIN_PRODUCT_NAME_LENGTH = AllowedDataSettings.MIN_CHAR_FOR_PRODUCT_NAME
+    __PURPOSE = [i.value for i in ProductPurposes]
 
-    def __get_allowed_product_types_formated(self) -> str:
-        allowed_types_formated = ""
-        for item in self.__ALLOWED_PRODUCTS_TYPE:
-            allowed_types_formated = f"{allowed_types_formated}-{item}\n"
-
-        return allowed_types_formated
+    def __get_allowed_product_types_formatted(self) -> str:
+        return "".join(f"-{i}\n" for i in self.__ALLOWED_PRODUCTS_TYPE)
 
     def print_allowed_product_types(self):
         print("Allowed product types:")
-        print(self.__get_allowed_product_types_formated())
+        print(self.__get_allowed_product_types_formatted())
 
     def is_product_type_allowed(self, product_type: str) -> bool:
-        if product_type in self.__ALLOWED_PRODUCTS_TYPE:
-            return True
-        else:
-            return False
+        return True if product_type.lower() in self.__ALLOWED_PRODUCTS_TYPE else False
 
-    def check_product_name_length(self, product_name: str) -> bool:
+    def is_product_name_length_valid(self, product_name: str) -> bool:
         if self.__MIN_PRODUCT_NAME_LENGTH <= len(product_name) <= self.__MAX_PRODUCT_NAME_LENGTH:
             return True
 
@@ -35,3 +30,13 @@ class AllowedProducts:
             print(f"Product name is too short (min {self.__MIN_PRODUCT_NAME_LENGTH.__str__()} characters)")
 
         return False
+
+    def __get_allowed_product_purposes_formatted(self) -> str:
+        return "".join(f"-{i}\n" for i in self.__PURPOSE)
+
+    def is_product_purpose_valid(self, product_purpose) -> bool:
+        return True if product_purpose in self.__PURPOSE else False
+
+    def print_allowed_product_purpose(self):
+        print(f"Allowed purpose:")
+        print(self.__get_allowed_product_purposes_formatted())

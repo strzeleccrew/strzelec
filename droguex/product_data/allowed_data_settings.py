@@ -1,6 +1,8 @@
-class AllowedData:
+class AllowedDataSettings:
     MIN_CHAR_FOR_PRODUCT_TYPE = 1
     MAX_CHAR_FOR_PRODUCT_TYPE = 60
 
     MIN_CHAR_FOR_PRODUCT_NAME = 1
     MAX_CHAR_FOR_PRODUCT_NAME = 60
+
+    QUIT_COMMAND = "quit"
