@@ -1,13 +1,13 @@
 from droguex.product_data.allowed_data_settings import AllowedDataSettings
 from droguex.product_data.product_data import ProductData
-from droguex.product_data.product_purposes import ProductPurposes
 
 
 class AllowedProducts:
     __ALLOWED_PRODUCTS_TYPE = ProductData.product_types
+    __PURPOSE = ProductData.product_purposes
+
     __MAX_PRODUCT_NAME_LENGTH = AllowedDataSettings.MAX_CHAR_FOR_PRODUCT_NAME
     __MIN_PRODUCT_NAME_LENGTH = AllowedDataSettings.MIN_CHAR_FOR_PRODUCT_NAME
-    __PURPOSE = [i.value for i in ProductPurposes]
 
     def __get_allowed_product_types_formatted(self) -> str:
         return "".join(f"-{i}\n" for i in self.__ALLOWED_PRODUCTS_TYPE)

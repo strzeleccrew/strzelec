@@ -1,5 +1,4 @@
 from droguex.product_data.allowed_data_settings import AllowedDataSettings
-from droguex.product_data.product import Product
 from droguex.product_data.product_data import ProductData
 from droguex.product_input_interface.allowed_products import AllowedProducts
 from droguex.utils.console_cleaner import console_clean

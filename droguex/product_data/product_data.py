@@ -1,17 +1,19 @@
 from droguex.product_data.product import Product
+from droguex.product_data.product_purposes import ProductPurposes
 from droguex.product_data.product_types import ProductTypes
 from droguex.utils.console_cleaner import console_clean
 
 
 class ProductData:
-    # This class will store in memory all product types for now as in database
-    product_types = [i.value for i in ProductTypes]
+    # This class will store in memory all product types for now like in database
+    product_types = [i.value for i in ProductTypes]  # temporary memory to store product types
+    product_purposes = [i.value for i in ProductPurposes]  # temporary memory to store product purposes
     product_objects = []  # temporary memory to store objects
-    id = 0
+    product_id = 0  # variable to set new product id before saving it to memory
 
     def __get_id_for_new_product(self) -> int:
-        ProductData.id += 1
-        return ProductData.id
+        ProductData.product_id += 1
+        return ProductData.product_id
 
     @console_clean
     def show_products_in_werehouse(self):
