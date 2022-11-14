@@ -17,7 +17,7 @@ class InputInterface:
         return input("Please enter product name: ")
 
     @staticmethod
-    def __user_quantity_of_product() -> str:
+    def __user_input_quantity_of_product() -> str:
         return input("Please enter quantity: ")
 
     @staticmethod
@@ -70,7 +70,7 @@ class InputInterface:
     def __get_product_quantity(self):
         ERROR_MESSAGE = "You need to input natural number greater than 0."
         while True:
-            quantity = self.__user_quantity_of_product()
+            quantity = self.__user_input_quantity_of_product()
             try:
                 if quantity.lower() == self.__QUIT:
                     return self.__QUIT

@@ -9,8 +9,7 @@ class ProductData:
     product_objects = []  # temporary memory to store objects
     id = 0
 
-    @staticmethod
-    def __get_id_for_new_product() -> int:
+    def __get_id_for_new_product(self) -> int:
         ProductData.id += 1
         return ProductData.id
 
@@ -25,4 +24,27 @@ class ProductData:
         print("-" * 30)
 
     def add_new_product_to_memory(self, product_temp: tuple):
-        ProductData.product_objects.append(Product(self.__get_id_for_new_product(), *product_temp))
+        self.product_objects.append(Product(self.__get_id_for_new_product(), *product_temp))
+
+    def __get_product_by_id(self, product_id):
+        for i in self.product_objects:
+            if i.id == product_id:
+                return i
+
+        return None
+
+    def is_product_in_memory_by_id(self, product_id) -> bool:
+        return True if any(i.id == product_id for i in self.product_objects) else False
+
+    def remove_product_by_id(self, product_id: int):
+        if self.is_product_in_memory_by_id(product_id):
+            product = self.__get_product_by_id(product_id)
+            self.product_objects.remove(product)
+        else:
+            print("Product with such id is not in memory")
+
+    def show_product_by_id(self, product_id):
+        try:
+            print(vars(self.__get_product_by_id(product_id)))
+        except TypeError:
+            print(f"There is product with id '{product_id}' in memory")
